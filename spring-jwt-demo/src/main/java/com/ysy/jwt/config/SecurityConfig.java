@@ -29,6 +29,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		    .formLogin().disable() // html form 로그인 사용 x
 		    .httpBasic().disable() //
 		    .addFilter(corsConfig.corsFilter())
+		    
 		    .authorizeRequests()
 			.antMatchers("/api/v1/user/**")
 			.access("hasRole('ROLE_USER') or hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
@@ -36,8 +37,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 				.access("hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
 			.antMatchers("/api/v1/admin/**")
 				.access("hasRole('ROLE_ADMIN')")
-			.anyRequest().permitAll();
-		;
+			.anyRequest().permitAll()
+			;
 	
 	}
 
