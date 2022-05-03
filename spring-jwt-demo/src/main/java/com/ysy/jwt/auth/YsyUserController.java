@@ -27,19 +27,30 @@ public class YsyUserController {
 	@ResponseBody
 	public String userRegister(@RequestBody YsyUser ysyUser ) {
 		
-		if( !ysyUtil.isNullAndEmpty(ysyUser.getUserId()) &&
-		    !ysyUtil.isNullAndEmpty(ysyUser.getPwd())) 
+		if( !ysyUtil.isNullAndEmpty(ysyUser.getUsername()) &&
+		    !ysyUtil.isNullAndEmpty(ysyUser.getPassword())) 
 		{
-			ysyUser.setPwd(bCryptPasswordEncoder.encode(ysyUser.getPwd()));
-			ysyUser.setRoles("ROLE_USER");
-			if(ysyUserService.userRegister(ysyUser ) !=null) {
-				return "ok";
+			
+			if(ysyUserService.isUser(ysyUser.getUsername())) {
+				return "user 존재";
+			}
+			ysyUser.setPassword(bCryptPasswordEncoder.encode(ysyUser.getPassword()));
+			ysyUser.setRoles("ROLE_USER");//기본 룰 셋팅 , 이후 관리자 페이지에서 role 변경
+			if(ysyUserService.userRegister(ysyUser )) {
+				return "ok -> login page move!";
 			}
 			else return "user register error";
 		}
 		else {
 			return "Id or password empty!";
 		}
+	}
+	
+	@GetMapping("/home")
+	@ResponseBody
+	public String home() {
+		
+		return "home 진입";
 	}
 	
 	

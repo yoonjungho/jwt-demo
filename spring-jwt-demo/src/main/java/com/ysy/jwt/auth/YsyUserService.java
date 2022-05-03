@@ -10,14 +10,21 @@ public class YsyUserService {
 	private YsyUserRepository ysyUserRepository;
 	
 	
-	public String userRegister(YsyUser ysyUser ) {
+	/** user 등록 */
+	public boolean userRegister(YsyUser ysyUser ) {
 		
-		YsyUser tmp = ysyUserRepository.findByuserId(ysyUser.getUserId());
-		if(tmp == null) {
-			ysyUserRepository.save(ysyUser);
-			return "ok";
-		}else {
-			return "user가 존재합니다.";
-		}
+		if(ysyUserRepository.save(ysyUser)  == null) 
+			return false;
+		
+		return true;
+	}
+	
+	/** user 존재여부 확인 존재 : true */
+	public boolean isUser(String username) {
+	
+		if(ysyUserRepository.findByUser_id(username) == null)
+			return false;
+		
+		return true;
 	}
 }

@@ -4,5 +4,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface YsyUserRepository extends JpaRepository<YsyUser, Long>{
 
-	public YsyUser findByuserId(String userId);
+	public YsyUser findByUser_id(String user_id);
 }
