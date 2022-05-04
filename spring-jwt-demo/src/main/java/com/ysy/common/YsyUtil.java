@@ -9,16 +9,16 @@ import org.springframework.stereotype.Component;
 public class YsyUtil {
 	
 	
-	private boolean isLog = true;
+	private static boolean isLog = true;
 	
-	public void log(Object obj) {
+	public static void log(Object obj) {
 		if(isLog) System.out.println(obj.getClass().getName());
 	}
-	public void log(String msg) {
+	public static void log(String msg) {
 		if(isLog) System.out.println(getTime() + " : " + msg);
 	}
 	
-	public String getTime() {
+	public static String getTime() {
 		
 		LocalDate date = LocalDate.now();
 		LocalTime time = LocalTime.now();
@@ -26,14 +26,14 @@ public class YsyUtil {
 	}
 
 	//널 ,빈값 체크
-	public boolean isNullAndEmpty(String str) {
+	public static boolean isNullAndEmpty(String str) {
 		boolean flag = false;
 		
 		if(str == null)               flag = true;
 		else if(str.trim().isEmpty()) flag = true;
 		return flag;
 	}
-	public boolean isNull(String str) {
+	public static boolean isNull(String str) {
 		if(str== null) return true;
 		return false;
 	}

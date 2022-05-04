@@ -7,7 +7,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -32,21 +31,23 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter{
 	
 	private YsyUserRepository ysyUserRepository;
 	
-	@Autowired
-	private YsyUtil util;
 	
 	public JwtAuthorizationFilter(AuthenticationManager authenticationManager, YsyUserRepository ysyUserRepository) {
 		super(authenticationManager);
-		util.log("JwtAuthorizationFilter class JwtAuthorizationFilter 생성자 진입");
+		YsyUtil.log("JwtAuthorizationFilter class JwtAuthorizationFilter 생성자 진입");
 		this.ysyUserRepository = ysyUserRepository;
 	}
+	
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-		util.log("JwtAuthorizationFilter class doFilterInternal  진입");
+		YsyUtil.log("JwtAuthorizationFilter class doFilterInternal  진입");
 		
 		String header = request.getHeader(JwtProperties.HEADER_STRING);
+//		printPostData(request);
+		
+		
 		
 		if(header == null || !header.startsWith(JwtProperties.TOKEN_PREFIX)) {//내가 보낸 해더인지 검사
 			chain.doFilter(request, response);
@@ -54,7 +55,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter{
 		}
 	
 		
-		util.log("header : "+header);
+		YsyUtil.log("header : "+header);
 		
 		String token = request.getHeader(JwtProperties.HEADER_STRING).replace(JwtProperties.TOKEN_PREFIX, "");
 		String username = JWT.require(Algorithm.HMAC512(JwtProperties.SECRET))
@@ -64,7 +65,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter{
 				             .asString();
 		
 		if(username != null) {	
-			YsyUser user = ysyUserRepository.findByUser_id(username);
+			YsyUser user = ysyUserRepository.findByUsername(username);
 			
 			// 인증은 토큰 검증시 끝. 인증을 하기 위해서가 아닌 스프링 시큐리티가 수행해주는 권한 처리를 위해 
 			// 아래와 같이 토큰을 만들어서 Authentication 객체를 강제로 만들고 그걸 세션에 저장!

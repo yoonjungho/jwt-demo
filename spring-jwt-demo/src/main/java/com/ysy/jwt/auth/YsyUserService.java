@@ -11,7 +11,7 @@ public class YsyUserService {
 	
 	
 	/** user 등록 */
-	public boolean userRegister(YsyUser ysyUser ) {
+	public boolean signUp(YsyUser ysyUser ) {
 		
 		if(ysyUserRepository.save(ysyUser)  == null) 
 			return false;
@@ -22,7 +22,7 @@ public class YsyUserService {
 	/** user 존재여부 확인 존재 : true */
 	public boolean isUser(String username) {
 	
-		if(ysyUserRepository.findByUser_id(username) == null)
+		if(ysyUserRepository.findByUsername(username) == null)
 			return false;
 		
 		return true;

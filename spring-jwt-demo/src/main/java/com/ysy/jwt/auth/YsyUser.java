@@ -11,6 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.security.core.userdetails.User;
+
 import lombok.Data;
 
 /** create by clubbboy@naver.com
@@ -20,7 +22,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name="ysy_user_mst1")
-public class YsyUser {
+public class YsyUser{
 
 	
 	@Id
@@ -30,9 +32,9 @@ public class YsyUser {
 	//String username으로 한 이유는 스프링 정책상 변수를 맞춰주기 위해 , 다른걸로 하려면 셋팅을 좀 해야해서 그냥 db컬럼명을 지정해주고 처리함. 패스워드도 동일한 이유임.
 	@Column(name = "USER_ID",length = 255 , nullable = false , unique = true)
 	private String username;
-	@Column(name = "USER_PW")
+	@Column(name = "USER_PW" , length = 255 , nullable = false)
 	private String password;
-	@Column(name = "USER_NM")
+	@Column(name = "USER_NM" , length = 255 , nullable = false)
 	private String name;
 	@Column(name = "USER_EMAIL")
 	private String email;

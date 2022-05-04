@@ -63,6 +63,40 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		
+		
+		<!-- getreader() has already been called for this request in spring boot 
+		     error 해결하기 위한 dependency
+		     : jwt처리시 필터에서 HttpServletRequest의 getReader() 함수나 getInputStream() 읽어야 하는데
+		       이 부분은 한번밖에 읽을수가 없어서 해당 에러가 발생함.
+		       그런 이유로  Wrapper객체를 생성해서 InputStream을 계속해서 읽어주게 하기 위해 dependency 선언 후
+		       RereadableRequestWrapper 클래스 만들어서 jwt filter 맨 앞쪽에서 dofilter함수에서 
+		       계속 사용할 수 있게 등록해줌.
+		     -->
+		<!-- JSONObject 사용-->
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20180813</version>
+        </dependency>
+        <!-- IOUtils 사용-->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.6</version>
+        </dependency>
+        <!-- isBlank 사용 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+        <!-- URLCodec 사용-->
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+        </dependency>
+		
+		
 	</dependencies>
 
 	<build>

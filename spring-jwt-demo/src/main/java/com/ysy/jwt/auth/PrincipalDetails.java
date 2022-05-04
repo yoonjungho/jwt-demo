@@ -13,11 +13,9 @@ public class PrincipalDetails implements UserDetails{
 
 	private YsyUser user;
 	
-	@Autowired
-	private YsyUtil util;
 	
 	public PrincipalDetails(YsyUser user) {
-		util.log("PrincipalDetails -> PrincipalDetails 생성자 실행");
+		YsyUtil.log("PrincipalDetails -> PrincipalDetails 생성자 실행");
 		this.user = user;
 	}
 	
@@ -29,7 +27,7 @@ public class PrincipalDetails implements UserDetails{
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		
-		util.log("PrincipalDetails -> getAuthorities 실행");
+		YsyUtil.log("PrincipalDetails -> getAuthorities 실행");
 		
 		Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 		

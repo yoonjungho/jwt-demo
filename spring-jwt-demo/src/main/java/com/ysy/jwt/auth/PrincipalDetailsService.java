@@ -29,15 +29,13 @@ public class PrincipalDetailsService implements UserDetailsService{
 
 	@Autowired
 	private YsyUserRepository ysyUserRepository;
-	@Autowired
-	private YsyUtil util;
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-		util.log("PrincipalDetailsService : 진입");
+		YsyUtil.log("PrincipalDetailsService : 진입");
 		
-		YsyUser user = ysyUserRepository.findByUser_id(username);
+		YsyUser user = ysyUserRepository.findByUsername(username);
 		
 		return new PrincipalDetails(user);
 	}

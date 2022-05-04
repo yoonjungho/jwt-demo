@@ -47,17 +47,17 @@ import lombok.RequiredArgsConstructor;
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter{
 
 	
-	@Autowired
-	private AuthenticationManager authenticationManager;
+	private final AuthenticationManager authenticationManager;
 
-	@Autowired
-	private YsyUtil util ; 
+//	public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
+//		this.authenticationManager = authenticationManager;
+//	}
 	
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException {
 		
-		util.log("JwtAuthenticationFilter class -> attemptAuthentication() 진입");
+		YsyUtil.log("JwtAuthenticationFilter class -> attemptAuthentication() 진입");
 		ObjectMapper om = new ObjectMapper();
 		LoginReqData loginReqData = null;
 		
@@ -66,20 +66,22 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		util.log("logdata ===> "+loginReqData);
+		YsyUtil.log("logdata ===> "+loginReqData);
 		
-		//jwt token 생성
+		// 유저네임패스워드 jwt 토큰 생성
 		UsernamePasswordAuthenticationToken authenticationToken = 
-				new UsernamePasswordAuthenticationToken(loginReqData.getUsername(),loginReqData.getPassword());
+				new UsernamePasswordAuthenticationToken(
+						loginReqData.getUsername(),
+						loginReqData.getPassword());
 		
-		util.log("token create  ===> "+ authenticationToken);
+		YsyUtil.log("token create  ===> "+ authenticationToken);
 		
 		Authentication authentication = 
 				authenticationManager.authenticate(authenticationToken);
 		
 		PrincipalDetails principalDetails = (PrincipalDetails)authentication.getPrincipal();
 		
-		util.log("Authentication : "+principalDetails.getUser().getUsername());
+		YsyUtil.log("Authentication : "+principalDetails.getUser().getUsername());
 		
 		return authentication;
 	}
@@ -88,14 +90,14 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
 			Authentication authResult) throws IOException, ServletException {
 		
-		util.log("JwtAuthenticationFilter class --->  successfulAuthentication 진입 ");
+		YsyUtil.log("JwtAuthenticationFilter class --->  successfulAuthentication 진입 ");
 		
 		PrincipalDetails principalDetails = (PrincipalDetails) authResult.getPrincipal();
 		
 		String jwtToken = JWT.create()
 				.withSubject(principalDetails.getUsername())
 				.withExpiresAt(new Date(System.currentTimeMillis()+JwtProperties.EXPIRATION_TIME))
-				.withClaim("id", principalDetails.getUser().getId())
+				.withClaim("id"      , principalDetails.getUser().getId())
 				.withClaim("username", principalDetails.getUser().getUsername())
 				.sign(Algorithm.HMAC512(JwtProperties.SECRET));
 		
