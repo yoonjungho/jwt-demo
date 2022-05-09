@@ -15,13 +15,15 @@ import org.springframework.security.core.userdetails.User;
 
 import lombok.Data;
 
-/** create by clubbboy@naver.com
- *  user 기본 정보 data
- * */
+/**
+ * @author clubbboy@naver.com
+ *  2022. 5. 5.
+ *  Desc : user 정보
+ */
 
 @Data
 @Entity
-@Table(name="ysy_user_mst1")
+@Table(name="ysy_user_mst")
 public class YsyUser{
 
 	
@@ -42,6 +44,8 @@ public class YsyUser{
 	private String phone;
 	@Column(name = "ROLES")
 	private String roles;
+	@Column(name = "USER_GRP")
+	private String userGrp;
 	
 	
 	public List<String> getRoleList(){

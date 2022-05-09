@@ -20,17 +20,16 @@ import com.ysy.jwt.auth.PrincipalDetails;
 import com.ysy.jwt.auth.YsyUser;
 import com.ysy.jwt.auth.YsyUserRepository;
 /**
- * 
- * @author yjh 2022 05 03
- *	
- * 로그인 후 token을 들고오면 인증된 user인지 확인
- *
+ * @author clubbboy@naver.com
+ *  2022. 5. 5.
+ *  Desc : 로그인 후 token을 들고오면 인증된 user인지 확인
+ *         BasicAuthenticationFilter는 권한이나 인증이 필요한 주소를 요청할때 필터 동작함
  */
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter{
 
 	
 	private YsyUserRepository ysyUserRepository;
-	
+
 	
 	public JwtAuthorizationFilter(AuthenticationManager authenticationManager, YsyUserRepository ysyUserRepository) {
 		super(authenticationManager);
@@ -77,6 +76,10 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter{
 			
 			// 강제로 시큐리티의 세션에 접근하여 값 저장
 			SecurityContextHolder.getContext().setAuthentication(authentication);
+			
+			/** 이 부분에서 해당 token의 만료시간 체크하여 다시 response에 담아줌.
+			 *  refresh token을 가지고 오면 처리해도 됨.
+			 *  아무튼 예외처리 할 부분을 좀 있음 . */
 		}
 		
 	}
