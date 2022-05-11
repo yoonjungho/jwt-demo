@@ -1,5 +1,5 @@
 server:
-  port: 8810
+  port: 8000
   servlet:
     context-path: /
     encoding:
@@ -12,17 +12,26 @@ spring:
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
 
-    url: jdbc:mariadb://192.168.0.114:3306/semes_db
-    username: root
-    password: password
-    #정호 로컬 집
-#    url: jdbc:mariadb://localhost:3306/ysy_db
+#    url: jdbc:mariadb://192.168.0.114:3306/semes_db
 #    username: root
-#    password: 1234
+#    password: password
+    #정호 로컬 집
+    url: jdbc:mariadb://localhost:3306/ysy_db
+    username: root
+    password: 1234
 
   jpa:
+    open-in-view: true
     hibernate:
       ddl-auto: update #create update none
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        use-new-id-generator-mappings: false
     show-sql: true
+    properties:
+      hibernate.format_sql: true
+      
+      
+  jackson:
+    serialization:
+      fail-on-empty-beans: false

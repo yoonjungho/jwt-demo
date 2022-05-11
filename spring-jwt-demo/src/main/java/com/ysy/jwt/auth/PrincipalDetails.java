@@ -9,6 +9,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.ysy.common.YsyUtil;
 
+/**
+ * @author clubbboy@naver.com
+ *  2022. 5. 5.
+ *  Desc : 로그인 및 권한 처리시 사용하기 위한 class
+ */
 public class PrincipalDetails implements UserDetails{
 
 	private YsyUser user;
@@ -23,7 +28,7 @@ public class PrincipalDetails implements UserDetails{
 		return user;
 	}
 	
-	
+	/** 권한을 관리하기 위한 함수 securityConfig의 hashRole("") => 여기 있는거랑 맵핑 되어야함. */
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		
