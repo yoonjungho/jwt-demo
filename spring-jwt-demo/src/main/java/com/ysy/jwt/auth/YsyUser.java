@@ -26,7 +26,7 @@ import lombok.Data;
 @Table(name="ysy_user_mst")
 public class YsyUser{
 
-	/*asdasd*/
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
